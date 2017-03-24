@@ -3,8 +3,12 @@ import os
 
 import time
 
-env_python = "/home/andriy/anaconda3/envs/spark/bin/python3"
-text_path = '/home/andriy/Datasets/de/de_1000000'
+
+env_python = "/home/loki/miniconda3/envs/spark-lang/bin/python3"
+text_path = '/home/loki/Datasets/dewiki.xml'
+out_path = 'de.json'
+# env_python = "/home/andriy/anaconda3/envs/spark/bin/python3"
+# text_path = '/home/andriy/Datasets/de/de_1000000'
 # text_path = '/home/andriy/Code/PyCharmProjects/lang_ident/requirements.txt'
 
 os.environ.setdefault('PYSPARK_PYTHON', env_python)
@@ -13,9 +17,14 @@ os.environ.setdefault('PYSPARK_PYTHON', env_python)
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder. \
-    master("spark://XPS-13-9360:7077"). \
-    appName("ProofOfConcept"). \
+    master("spark://192.168.1.46:7077"). \
+    appName("lang_profile_generation"). \
     getOrCreate()
+
+# spark = SparkSession.builder. \
+#     master("spark://XPS-13-9360:7077"). \
+#     appName("ProofOfConcept"). \
+#     getOrCreate()
 
 sc = spark.sparkContext
 
@@ -92,8 +101,11 @@ def n_gramizer(word):
 #     res = line1 + line2
 #     return dict(res)
 
+with open(text_path) as fh:
+    text = fh.read()
 
-textFile = sc.textFile(text_path)
+textFile = sc.parallelize(text)
+# textFile = sc.textFile(text_path)
 # textFile.map(lambda line: len(line.split())).reduce(lambda a, b: a if (a > b) else b)
 # res = textFile.flatMap(lambda line: line.split()).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
 # res = textFile.map(lambda line: mapper(line)).reduce(lambda tuple_one, tuple_two: reducer(tuple_one, tuple_two))
@@ -105,7 +117,7 @@ res = textFile.flatMap(lambda line: tokenizer(line)) \
     .reduceByKey(lambda a, b: a + b)
 # print(dict(res.collect()))
 
-with open('de.json', 'w') as fp:
+with open(out_path, 'w') as fp:
     json.dump(dict(res.collect()), fp)
 
 t2 = time.time() - t1
