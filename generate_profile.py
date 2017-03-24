@@ -101,10 +101,11 @@ def n_gramizer(word):
 #     res = line1 + line2
 #     return dict(res)
 
-with open(text_path) as fh:
-    text = fh.read()
+# with open(text_path) as fh:
+#     text = fh.read()
+fh = open(text_path)
 
-textFile = sc.parallelize(text)
+textFile = sc.parallelize(fh)
 # textFile = sc.textFile(text_path)
 # textFile.map(lambda line: len(line.split())).reduce(lambda a, b: a if (a > b) else b)
 # res = textFile.flatMap(lambda line: line.split()).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
