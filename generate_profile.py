@@ -7,6 +7,7 @@ import time
 env_python = "/home/loki/miniconda3/envs/spark-lang/bin/python3"
 text_path = '/home/loki/Datasets/dewiki.xml'
 out_path = 'de.json'
+partition_num = 100
 # env_python = "/home/andriy/anaconda3/envs/spark/bin/python3"
 # text_path = '/home/andriy/Datasets/de/de_1000000'
 # text_path = '/home/andriy/Code/PyCharmProjects/lang_ident/requirements.txt'
@@ -105,7 +106,7 @@ def n_gramizer(word):
 #     text = fh.read()
 
 fh = open(text_path)
-textFile = sc.parallelize(fh)
+textFile = sc.parallelize(fh, partition_num)
 # textFile = sc.textFile(text_path)
 # textFile.map(lambda line: len(line.split())).reduce(lambda a, b: a if (a > b) else b)
 # res = textFile.flatMap(lambda line: line.split()).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
