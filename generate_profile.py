@@ -103,8 +103,8 @@ def n_gramizer(word):
 
 # with open(text_path) as fh:
 #     text = fh.read()
-fh = open(text_path)
 
+fh = open(text_path)
 textFile = sc.parallelize(fh)
 # textFile = sc.textFile(text_path)
 # textFile.map(lambda line: len(line.split())).reduce(lambda a, b: a if (a > b) else b)
