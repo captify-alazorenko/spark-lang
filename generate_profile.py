@@ -7,7 +7,7 @@ import time
 env_python = "/home/loki/miniconda3/envs/spark-lang/bin/python3"
 text_path = '/home/loki/Datasets/dewiki.xml'
 out_path = 'de.json'
-partition_num = 100
+partition_num = 1000000
 # env_python = "/home/andriy/anaconda3/envs/spark/bin/python3"
 # text_path = '/home/andriy/Datasets/de/de_1000000'
 # text_path = '/home/andriy/Code/PyCharmProjects/lang_ident/requirements.txt'
